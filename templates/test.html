@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>PG Assessment Examination</title>
+<style>
+
+body{
+
+font-family:Arial,sans-serif;
+
+background-color:#f4f6f9;
+
+margin-top:240px;
+
+margin-left:20px;
+
+margin-right:20px;
+
+}
+
+
+.fixed-header{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+background-color:#003366;
+
+color:white;
+
+padding:15px;
+
+z-index:1000;
+
+border-bottom:4px solid #FFD700;
+
+box-shadow:0 0 15px rgba(0,0,0,0.20);
+
+}
+
+
+.fixed-header h2{
+
+margin:8px 0;
+
+}
+
+
+.fixed-header h3{
+
+margin:8px 0;
+
+font-weight:normal;
+
+}
+
+
+#timer{
+
+font-size:30px;
+
+font-weight:bold;
+
+color:#FFD700;
+
+}
+
+
+p{
+
+font-size:18px;
+
+line-height:1.7;
+
+}
+
+
+input[type="radio"]{
+
+transform:scale(1.2);
+
+margin-right:10px;
+
+cursor:pointer;
+
+}
+
+
+button{
+
+padding:12px 28px;
+
+font-size:18px;
+
+background-color:#0047AB;
+
+color:white;
+
+border:none;
+
+border-radius:8px;
+
+cursor:pointer;
+
+margin-bottom:30px;
+
+}
+
+
+button:hover{
+
+background-color:#002D72;
+
+}
+
+
+hr{
+
+border:1px solid white;
+
+}
+
+
+@media(max-width:768px){
+
+body{
+
+margin-top:280px;
+
+}
+
+
+.fixed-header{
+
+padding:12px;
+
+}
+
+
+#timer{
+
+font-size:25px;
+
+}
+
+
+p{
+
+font-size:17px;
+
+}
+
+}
+
+</style>
+
+
+</head>
+
+<body>
+
+<div class="fixed-header">
+
+<h2>
+Name : {{student_name}}
+</h2>
+
+<h3>
+Roll Number : {{roll_number}}
+</h3>
+
+<h2>
+Time Remaining :
+<span id="timer"></span>
+</h2>
+
+<hr>
+
+</div>
+
+
+<form action="/submit_exam" method="POST" id="examForm" autocomplete="off">
+<input type="hidden"
+name="student_name"
+value="{{student_name}}">
+
+
+<input type="hidden"
+name="roll_number"
+value="{{roll_number}}">
+
+{% for q in questions %}
+
+{% set question_number=loop.index %}
+
+<p>
+
+<b>
+
+Question-{{question_number}}
+
+<br><br>
+
+{{q.question}}
+
+</b>
+
+</p>
+
+
+{% for option in q.options %}
+
+<input type="radio"
+name="question_{{question_number}}"
+value="{{option}}">
+
+{{option}}
+
+<br>
+
+{% endfor %}
+
+<br>
+
+{% endfor %}
+
+
+<br><br>
+
+
+<center>
+
+<button type="button"
+onclick="confirmSubmission()">
+
+Submit Exam
+
+</button>
+
+</center>
+
+</form>
+
+
+<script>
+
+let totalTime={{duration}}*60;
+
+let examSubmitted=false;
+
+
+function submitExam(){
+
+if(examSubmitted){
+
+return;
+
+}
+
+examSubmitted=true;
+
+document.getElementById("examForm").submit();
+
+}
+
+
+function startTimer(){
+
+let minutes=Math.floor(totalTime/60);
+
+let seconds=totalTime%60;
+
+
+document.getElementById("timer").innerHTML=
+
+minutes + ":" +
+
+(seconds<10 ? "0" : "") + seconds;
+
+
+if(totalTime<=0){
+
+submitExam();
+
+return;
+
+}
+
+
+if(totalTime>0){
+
+totalTime--;
+
+}
+
+}
+
+
+startTimer();
+
+setInterval(startTimer,1000);
+
+
+function confirmSubmission(){
+
+let answer=confirm(
+
+"Do you want to submit your examination?"
+
+);
+
+
+if(answer){
+
+submitExam();
+
+}
+
+}
+
+
+history.pushState(null,null,location.href);
+
+
+window.onpopstate=function(){
+
+submitExam();
+
+};
+document.addEventListener("visibilitychange",function(){
+
+if(document.hidden){
+
+submitExam();
+
+}
+
+});
+window.addEventListener("blur",function(){
+
+submitExam();
+
+});
+document.addEventListener("keydown",function(event){
+
+if(event.key==="F5"){
+
+event.preventDefault();
+
+submitExam();
+
+}
+
+
+if(event.ctrlKey && event.key==="r"){
+
+event.preventDefault();
+
+submitExam();
+
+}
+
+});
+document.addEventListener("copy",function(event){
+
+event.preventDefault();
+
+submitExam();
+
+});
+</script>
+
+
+</body>
+
+</html>
