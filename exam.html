@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>PG Assessment Examination</title>
+
+<style>
+
+body{
+
+font-family:Arial,sans-serif;
+
+background-color:#f4f6f9;
+
+margin:0;
+
+padding:0;
+
+}
+
+
+.container{
+
+width:90%;
+
+max-width:500px;
+
+margin:80px auto;
+
+background-color:white;
+
+padding:30px;
+
+border-radius:15px;
+
+box-shadow:0 0 20px rgba(0,0,0,0.15);
+
+text-align:center;
+
+}
+
+
+.header{
+
+background-color:#4B0082;
+
+color:white;
+
+padding:20px;
+
+border-radius:10px;
+
+margin-bottom:30px;
+
+}
+
+
+.header h1{
+
+margin:0;
+
+}
+
+
+.header h3{
+
+margin-top:10px;
+
+font-weight:normal;
+
+}
+
+
+input{
+
+width:90%;
+
+padding:12px;
+
+font-size:16px;
+
+border:1px solid #cccccc;
+
+border-radius:8px;
+
+}
+
+
+button{
+
+padding:12px 25px;
+
+font-size:18px;
+
+border:none;
+
+border-radius:8px;
+
+background-color:#0047AB;
+
+color:white;
+
+cursor:pointer;
+
+}
+
+
+button:hover{
+
+background-color:#003080;
+
+}
+
+
+label{
+
+font-size:18px;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+<div class="header">
+
+<h1>PG Assessment Examination</h1>
+
+<h3>
+P.G. Department of Economics<br>
+Berhampur University
+</h3>
+
+</div>
+
+
+<form action="/start_exam" method="POST">
+
+
+<label><b>Name :</b></label>
+
+<br><br>
+
+<input
+type="text"
+name="name"
+placeholder="Enter Your Name"
+required>
+
+<br><br>
+
+
+<label><b>Roll Number :</b></label>
+
+<br><br>
+
+<input
+type="text"
+name="roll"
+placeholder="Enter Roll Number (Optional)">
+
+<br><br><br>
+
+
+<button type="submit">
+
+Start Examination
+
+</button>
+
+
+</form>
+
+</div>
+
+</body>
+
+</html>
+
