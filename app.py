@@ -28,16 +28,11 @@ SCOPES=[
 
 ]
 
-import os
-
-JSON_FILE=os.environ.get(
-
-"GOOGLE_CREDENTIALS",
+JSON_FILE=(
 
 "pg-assessment-examination-2264ab695ee0.json"
 
 )
-
 
 credentials=Credentials.from_service_account_file(
 
