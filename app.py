@@ -1,3 +1,6 @@
+import gspread
+
+from google.oauth2.service_account import Credentials
 import os
 
 from flask import Flask, render_template, request
@@ -15,7 +18,60 @@ from config import (
     PASS_PERCENTAGE
 )
 
+#-----------------------------------
 
+SCOPES=[
+
+"https://www.googleapis.com/auth/spreadsheets",
+
+"https://www.googleapis.com/auth/drive"
+
+]
+
+import os
+
+JSON_FILE=os.environ.get(
+
+"GOOGLE_CREDENTIALS",
+
+"pg-assessment-examination-2264ab695ee0.json"
+
+)
+
+
+credentials=Credentials.from_service_account_file(
+
+JSON_FILE,
+
+scopes=SCOPES
+
+)
+
+
+client=gspread.authorize(credentials)
+
+sheet=client.open(
+
+"PG Assessment Result"
+
+).worksheet("Sheet1")
+def save_google_sheet(name,roll,marks):
+
+    sheet.append_row(
+
+        [
+
+            name,
+
+            roll,
+
+            marks
+
+        ]
+
+    )
+
+#-----------------------------------
 app = Flask(__name__)
 
 
@@ -152,10 +208,37 @@ def submit_exam():
 
     )
 
+    try:
+    
+            save_google_sheet(
+    
+            student_name,
+    
+            roll_number,
+    
+            round(marks,2)
+    
+        )
+    
+            print(
+    
+            "Google Sheet Saved Successfully."
+    
+        )
+    
+    except Exception as e:
+            print(
+    
+            "Google Sheet Error :",
+    
+            e
+    
+        )
+
     current_date = datetime.now().strftime(
         "%d-%m-%Y"
     )
-
+   
     current_time = datetime.now().strftime(
         "%I:%M %p"
     )
@@ -208,5 +291,6 @@ if __name__ == "__main__":
         port=5000,
         debug=True
     )
+
 
 
